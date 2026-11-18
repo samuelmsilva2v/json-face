@@ -2,17 +2,7 @@
 
 Mostrador estilo editor de código (Zepp OS, 480x480) com hora, data, passos, batimentos, kcal e distância em formato JSON.
 
-```
-1  "17:23"
-2  {
-3    "date": "qua 18/11",
-4    "steps": 8432,
-5    "heart_rate": 72,
-6    "kcal": 412,
-7    "distance": "5.21km"
-8  }
-   ● BT · JSON · Ln 8
-```
+![Preview do mostrador](docs/preview.png)
 
 ## Estrutura
 
