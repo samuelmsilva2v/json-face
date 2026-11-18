@@ -1,4 +1,5 @@
 # status.json — mostrador para Amazfit T-Rex 3
+[🇺🇸 Read in English](#statusjson--watch-face-for-amazfit-t-rex-3)
 
 Mostrador estilo editor de código (Zepp OS, 480x480) com hora, data, passos, batimentos, kcal e distância em formato JSON.
 
@@ -62,3 +63,71 @@ O alinhamento das cores depende da fonte ser monoespaçada (cada caractere = 0,6
 - Não tem versão AOD (tela sempre ligada) ainda.
 
 Fonte: JetBrains Mono (SIL OFL 1.1), reduzida aos caracteres usados.
+
+---
+
+# status.json — watch face for Amazfit T-Rex 3
+[🇧🇷 Leia em Português](#statusjson--mostrador-para-amazfit-t-rex-3)
+
+Code-editor style watch face (Zepp OS, 480x480) showing time, date, steps, heart rate, calories and distance as JSON.
+
+![Watch face preview](docs/preview.png)
+
+## Structure
+
+```
+json-face/
+├── app.json                         # manifest (appType: watchface, sensor permissions)
+├── watchface/index.js               # layout + sensors
+└── assets/default.r/
+    ├── icon.png                     # 324x324 preview (watch face list)
+    └── fonts/JetBrainsMono-Subset.ttf
+```
+
+## Install on the watch
+
+1. Node.js 18+ and the Zeus CLI:
+   ```bash
+   npm i -g @zeppos/zeus-cli
+   zeus login
+   ```
+2. In the Zepp app on your phone: **Profile → Settings → About**, tap the Zepp logo 7 times to enable **Developer mode**.
+3. In the project folder:
+   ```bash
+   cd json-face
+   zeus preview
+   ```
+   Pick **Amazfit T-Rex 3** when asked for the device. A QR code will show up.
+4. In the Zepp app: **Profile → Developer mode → Scan**, and scan the QR code. The watch face is installed and applied.
+
+To try it in the simulator first: `zeus dev` (requires the Zepp OS Simulator).
+
+## If `zeus preview` complains about app.json or the assets
+
+The `app.json` format (v3) and the assets folder name change between Zeus versions. The safest fix:
+
+```bash
+zeus create test-wf      # choose: Watchface → T-Rex 3
+```
+
+Compare the generated `app.json` and `assets/` folder with the ones in this project. Copy the `targets` block and the assets folder name from there, keep this project's `permissions`, and move `icon.png` + `fonts/` into the folder the template created.
+
+## Customize
+
+Everything is at the top of `watchface/index.js`:
+
+- **Colors:** the `C` object (hex `0xRRGGBB`)
+- **Sizes:** `TIME_SIZE` (time), `SIZE` (other lines), `LINE_H`, `TOP`
+- **Horizontal position:** `CODE_X`
+- **Weekdays:** the `DAYS` array
+
+Color alignment relies on the font being monospaced (each character = 0.6 × size). If you change the font, use another monospaced one or adjust `ADV`.
+
+## Behavior
+
+- Heart rate with no recent reading shows as `null` (pink).
+- Distance comes from the sensor in meters and is shown in km with 2 decimals.
+- The ● in the status bar is green while the phone is connected over Bluetooth and gray when disconnected (updates every minute).
+- No AOD (always-on display) version yet.
+
+Font: JetBrains Mono (SIL OFL 1.1), subset to the characters used.
